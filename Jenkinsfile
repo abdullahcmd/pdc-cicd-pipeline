@@ -9,7 +9,14 @@ pipeline {
             steps { sh 'python3 app.py' }
         }
         stage('Test') {
-            steps { sh 'python3 -m pip install pytest --break-system-packages || true; python3 -m pytest -q' }
+            steps {
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install pytest
+                    python -m pytest -q
+                '''
+            }
         }
     }
     post {
